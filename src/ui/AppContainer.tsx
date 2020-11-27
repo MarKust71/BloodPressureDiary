@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, SafeAreaView, Text } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
 export const AppContainer = () => {
     return (
         <NavigationContainer>
-            <SafeAreaView style={styles.body}>
-                <View>
+            <SafeAreaView style={{ paddingTop: 25 }}>
+                <View style={styles.header}>
                     <Text>App</Text>
                 </View>
             </SafeAreaView>
@@ -15,5 +15,10 @@ export const AppContainer = () => {
 };
 
 const styles = StyleSheet.create({
-    body: {},
+    header: {
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'lightblue',
+    },
 });
