@@ -81,5 +81,6 @@ module.exports = {
         camelcase: 2,
         'prefer-destructuring': 2,
         'no-nested-ternary': 2,
+        '@typescript-eslint/no-use-before-define': 'off',
     },
 };

@@ -1,18 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, SafeAreaView, View } from 'react-native';
 
-const styles = StyleSheet.create({
-    body: {},
-});
+import { AppContainer } from 'ui/AppContainer';
 
 const App = () => {
-    return (
-        <SafeAreaView style={styles.body}>
-            <View>
-                <Text>App</Text>
-            </View>
-        </SafeAreaView>
-    );
+    return <AppContainer />;
 };
 
 export default App;
