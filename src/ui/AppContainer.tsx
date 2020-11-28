@@ -1,24 +1,17 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { View, StyleSheet, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const AppContainer = () => {
     return (
-        <NavigationContainer>
-            <SafeAreaView style={{ paddingTop: 25 }}>
-                <View style={styles.header}>
-                    <Text>App</Text>
-                </View>
-            </SafeAreaView>
-        </NavigationContainer>
+        <SafeAreaView style={styles.body}>
+            <View>
+                <Text>App</Text>
+            </View>
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
-    header: {
-        height: 50,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'lightblue',
-    },
+    body: {},
 });

@@ -1,14 +1,9 @@
 import React from 'react';
-import { Provider as PaperProvider } from 'react-native-paper';
 
-import { AppContainer } from 'ui/AppContainer';
+import { Routes } from 'routing/Routes';
 
 const App = () => {
-    return (
-        <PaperProvider>
-            <AppContainer />
-        </PaperProvider>
-    );
+    return <Routes />;
 };
 
 export default App;
