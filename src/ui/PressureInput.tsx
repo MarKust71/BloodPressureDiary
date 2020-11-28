@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     view: {
-        padding: 10,
         flexDirection: 'row',
     },
     input: {
