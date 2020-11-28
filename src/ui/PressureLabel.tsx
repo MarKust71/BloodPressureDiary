@@ -2,22 +2,18 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
-const locale = 'de-DE';
-const DateTimeOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-const currentTimeStamp = new Date(Date.now());
-const currentDateTimeString = `${currentTimeStamp.toLocaleDateString(
-    locale,
-    DateTimeOptions,
-)} ${currentTimeStamp.toLocaleTimeString(locale, DateTimeOptions)}`;
+type Props = {
+    pressure: number;
+};
 
-export const TimeLabel = () => {
+export const PressureLabel = ({ pressure }: Props) => {
     return (
         <View style={styles.body}>
             <View style={styles.label}>
-                <Text>Measurement started at:</Text>
+                <Text>Sensor air pressure:</Text>
             </View>
-            <View style={styles.timeWrapper}>
-                <Text>{currentDateTimeString}</Text>
+            <View style={styles.wrapper}>
+                <Text>{`${pressure} hPa`}</Text>
             </View>
         </View>
     );
@@ -33,7 +29,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     label: {},
-    timeWrapper: {
+    wrapper: {
         display: 'flex',
         flexDirection: 'row-reverse',
     },
