@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { AppContainer } from 'ui/AppContainer';
+import { Routes } from 'routing/Routes';
 
 const App = () => {
-    return <AppContainer />;
+    return <Routes />;
 };
 
 export default App;
