@@ -5,34 +5,34 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 import { Inputs } from 'ui/Inputs';
 import { TimeLabel } from 'ui/TimeLabel';
-import { PressureLabel } from 'ui/PressureLabel';
-import { getPressure } from 'api/barometerSubscription';
+import { SensorAirPressure } from 'ui/SensorAirPressure';
+import { getSensorPressure } from 'helpers/barometerSubscription';
 import { Geoposition } from 'ui/Geoposition';
-
-const wait = (timeout: number) => {
-    return new Promise((resolve) => {
-        setTimeout(resolve, timeout);
-    });
-};
+import { OpenWeatherAirPressure } from 'ui/OpenWeatherAirPressure';
+import { getCurrentDateTimeString } from 'helpers/getCurrentDateTimeString';
 
 export const AppContainer = () => {
-    const [pressure, setPressure] = useState(0);
+    const [sensorPressure, setSensorPressure] = useState(0);
+    const [openWeatherPressure, setOpenWeatherPressure] = useState(0);
     const [refreshing, setRefreshing] = useState(false);
+    const [time, setTime] = useState(getCurrentDateTimeString());
 
     const onRefresh = useCallback(() => {
-        setRefreshing(true);
-        wait(1000).then(() => setRefreshing(false));
+        setTime(getCurrentDateTimeString());
+        setRefreshing(false);
     }, []);
 
     useEffect(() => {
-        getPressure(setPressure);
+        getSensorPressure(setSensorPressure);
+        setOpenWeatherPressure(999);
     }, []);
 
     return (
         <SafeAreaView style={styles.body}>
             <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-                <TimeLabel />
-                <PressureLabel pressure={pressure} />
+                <TimeLabel time={time} />
+                <SensorAirPressure pressure={sensorPressure} />
+                <OpenWeatherAirPressure pressure={openWeatherPressure} />
                 <Geoposition />
                 <Inputs />
             </ScrollView>

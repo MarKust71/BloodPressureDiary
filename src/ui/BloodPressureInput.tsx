@@ -6,7 +6,7 @@ type Props = {
     label: string;
 };
 
-export const PressureInput = ({ label }: Props) => {
+export const BloodPressureInput = ({ label }: Props) => {
     return (
         <View style={styles.view}>
             <Text style={styles.text}>{label}</Text>

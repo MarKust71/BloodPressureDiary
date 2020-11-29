@@ -3,6 +3,9 @@ import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import Geolocation, { GeolocationError, GeolocationResponse } from '@react-native-community/geolocation';
 
+import { OPENWEATHER_APPID, OPENWEATHER_URL } from '../../dotenv';
+import { fetchOpenWeatherData } from 'api/fetchOpenWeatherData';
+
 type Params = {
     success: boolean;
     callback: (value: string) => void;
@@ -12,8 +15,15 @@ type Params = {
 
 const getPosition = ({ success, callback, info, error }: Params) => {
     if (success) {
-        console.log(info?.coords);
         callback(`lat: ${info?.coords.latitude}, lon: ${info?.coords.longitude}`);
+
+        fetchOpenWeatherData({
+            url: OPENWEATHER_URL || '',
+            lat: `${info?.coords.latitude}`,
+            lon: `${info?.coords.longitude}`,
+            appid: OPENWEATHER_APPID || '',
+        });
+
         return;
     }
     callback(`*ERROR* ${error?.message}`);

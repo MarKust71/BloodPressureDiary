@@ -1,7 +1,7 @@
 import { barometer } from 'react-native-sensors';
 import { take } from 'rxjs/operators';
 
-export const getPressure = (callback: (value: number) => void) => {
+export const getSensorPressure = (callback: (value: number) => void) => {
     const sharePressure = (pressure: number) => {
         callback(pressure);
     };

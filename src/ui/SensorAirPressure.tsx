@@ -3,17 +3,17 @@ import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
 type Props = {
-    time: string;
+    pressure: number;
 };
 
-export const TimeLabel = ({ time }: Props) => {
+export const SensorAirPressure = ({ pressure }: Props) => {
     return (
         <View style={styles.body}>
             <View style={styles.label}>
-                <Text>Measurement started at:</Text>
+                <Text>Sensor air pressure:</Text>
             </View>
-            <View style={styles.timeWrapper}>
-                <Text>{time}</Text>
+            <View style={styles.wrapper}>
+                <Text>{`${pressure} hPa`}</Text>
             </View>
         </View>
     );
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     label: {},
-    timeWrapper: {
+    wrapper: {
         display: 'flex',
         flexDirection: 'row-reverse',
     },

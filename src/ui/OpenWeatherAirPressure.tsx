@@ -6,11 +6,11 @@ type Props = {
     pressure: number;
 };
 
-export const PressureLabel = ({ pressure }: Props) => {
+export const OpenWeatherAirPressure = ({ pressure }: Props) => {
     return (
         <View style={styles.body}>
             <View style={styles.label}>
-                <Text>Sensor air pressure:</Text>
+                <Text>OpenWeather air pressure:</Text>
             </View>
             <View style={styles.wrapper}>
                 <Text>{`${pressure} hPa`}</Text>
