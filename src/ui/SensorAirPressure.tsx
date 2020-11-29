@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
 type Props = {
-    pressure: number;
+    pressure: string;
 };
 
 export const SensorAirPressure = ({ pressure }: Props) => {

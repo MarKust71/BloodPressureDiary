@@ -3,10 +3,13 @@ type FetchDataParams = {
     lat: string;
     lon: string;
     appid: string;
+    callback?: (value: number) => void;
 };
 
-export const fetchOpenWeatherData = ({ url, lat, lon, appid }: FetchDataParams) => {
-    fetch(`${url}lat=${lat}&lon=${lon}&appid=${appid}`)
-        .then((result) => result.json())
-        .then((data) => console.log('pressure:', data.main.pressure));
+export const fetchOpenWeatherData = async ({ url, lat, lon, appid, callback }: FetchDataParams) => {
+    const result = await fetch(`${url}lat=${lat}&lon=${lon}&appid=${appid}`);
+    const data = await result.json();
+    if (callback) {
+        callback(data.main.pressure);
+    }
 };

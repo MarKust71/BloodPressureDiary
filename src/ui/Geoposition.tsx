@@ -1,42 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
-import Geolocation, { GeolocationError, GeolocationResponse } from '@react-native-community/geolocation';
 
-import { OPENWEATHER_APPID, OPENWEATHER_URL } from '../../dotenv';
-import { fetchOpenWeatherData } from 'api/fetchOpenWeatherData';
-
-type Params = {
-    success: boolean;
-    callback: (value: string) => void;
-    info?: GeolocationResponse;
-    error?: GeolocationError;
+type Props = {
+    geoposition: string;
 };
 
-const getPosition = ({ success, callback, info, error }: Params) => {
-    if (success) {
-        callback(`lat: ${info?.coords.latitude}, lon: ${info?.coords.longitude}`);
-
-        fetchOpenWeatherData({
-            url: OPENWEATHER_URL || '',
-            lat: `${info?.coords.latitude}`,
-            lon: `${info?.coords.longitude}`,
-            appid: OPENWEATHER_APPID || '',
-        });
-
-        return;
-    }
-    callback(`*ERROR* ${error?.message}`);
-};
-
-export const Geoposition = () => {
-    const [geoposition, setGeoposition] = useState('');
-
-    Geolocation.getCurrentPosition(
-        (info) => getPosition({ success: true, callback: setGeoposition, info }),
-        (error) => getPosition({ success: false, callback: setGeoposition, error }),
-    );
-
+export const Geoposition = ({ geoposition }: Props) => {
     return (
         <View style={styles.body}>
             <View style={styles.label}>
