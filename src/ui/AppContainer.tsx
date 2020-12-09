@@ -12,6 +12,7 @@ import { Geoposition } from 'ui/Geoposition';
 import { OpenWeatherAirPressure } from 'ui/OpenWeatherAirPressure';
 import { getCurrentDateTimeString } from 'helpers/getCurrentDateTimeString';
 import { getPosition } from 'helpers/getPosition';
+import { ConfirmButton } from 'ui/ConfirmButton';
 
 export const AppContainer = () => {
     const [sensorPressure, setSensorPressure] = useState('');
@@ -55,6 +56,7 @@ export const AppContainer = () => {
                 <OpenWeatherAirPressure pressure={openWeatherPressure} />
                 <Geoposition geoposition={geoposition} />
                 <Inputs />
+                <ConfirmButton />
             </ScrollView>
         </SafeAreaView>
     );

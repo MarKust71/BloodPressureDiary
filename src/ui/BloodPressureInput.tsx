@@ -10,9 +10,9 @@ export const BloodPressureInput = ({ label }: Props) => {
     return (
         <View style={styles.view}>
             <Text style={styles.text}>{label}</Text>
-            <TextInput style={styles.input} mode="outlined" label="SYS" />
-            <TextInput style={styles.input} mode="outlined" label="DIA" />
-            <TextInput style={styles.input} mode="outlined" label="PUL" />
+            <TextInput style={styles.input} mode="flat" label="SYS" keyboardType="number-pad" />
+            <TextInput style={styles.input} mode="flat" label="DIA" keyboardType="number-pad" />
+            <TextInput style={styles.input} mode="flat" label="PUL" keyboardType="number-pad" />
         </View>
     );
 };
@@ -24,9 +24,10 @@ const styles = StyleSheet.create({
     },
     view: {
         flexDirection: 'row',
+        marginBottom: 3,
     },
     input: {
-        width: 110,
+        width: '27%',
         marginRight: 10,
     },
 });
