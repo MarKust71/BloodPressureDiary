@@ -4,15 +4,42 @@ import { Text, TextInput } from 'react-native-paper';
 
 type Props = {
     label: string;
+    values: {
+        sys: string;
+        dia: string;
+        pul: string;
+    };
+    handleChange: (field: string) => void;
 };
 
-export const BloodPressureInput = ({ label }: Props) => {
+export const BloodPressureInput = ({ label, values, handleChange }: Props) => {
     return (
         <View style={styles.view}>
             <Text style={styles.text}>{label}</Text>
-            <TextInput style={styles.input} mode="flat" label="SYS" keyboardType="number-pad" />
-            <TextInput style={styles.input} mode="flat" label="DIA" keyboardType="number-pad" />
-            <TextInput style={styles.input} mode="flat" label="PUL" keyboardType="number-pad" />
+            <TextInput
+                style={styles.input}
+                mode="flat"
+                label="SYS"
+                keyboardType="number-pad"
+                value={values.sys}
+                onChangeText={handleChange('sys')}
+            />
+            <TextInput
+                style={styles.input}
+                mode="flat"
+                label="DIA"
+                keyboardType="number-pad"
+                value={values.dia}
+                onChangeText={handleChange('dia')}
+            />
+            <TextInput
+                style={styles.input}
+                mode="flat"
+                label="PUL"
+                keyboardType="number-pad"
+                value={values.pul}
+                onChangeText={handleChange('pul')}
+            />
         </View>
     );
 };

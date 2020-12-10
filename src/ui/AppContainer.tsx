@@ -3,6 +3,8 @@ import { RefreshControl, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 import Geolocation from '@react-native-community/geolocation';
+import { Formik } from 'formik';
+import Clipboard from '@react-native-community/clipboard';
 
 import { Inputs } from 'ui/Inputs';
 import { TimeLabel } from 'ui/TimeLabel';
@@ -50,14 +52,24 @@ export const AppContainer = () => {
 
     return (
         <SafeAreaView style={styles.body}>
-            <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-                <TimeLabel time={time} />
-                <SensorAirPressure pressure={sensorPressure} />
-                <OpenWeatherAirPressure pressure={openWeatherPressure} />
-                <Geoposition geoposition={geoposition} />
-                <Inputs />
-                <ConfirmButton />
-            </ScrollView>
+            <Formik
+                initialValues={{ sys: '', dia: '', pul: '' }}
+                onSubmit={(values) => {
+                    console.log('values:', values);
+                    Clipboard.setString(time);
+                }}
+            >
+                {({ values, handleSubmit, handleChange }) => (
+                    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+                        <TimeLabel time={time} />
+                        <SensorAirPressure pressure={sensorPressure} />
+                        <OpenWeatherAirPressure pressure={openWeatherPressure} />
+                        <Geoposition geoposition={geoposition} />
+                        <Inputs values={values} handleChange={handleChange} />
+                        <ConfirmButton onPress={handleSubmit} />
+                    </ScrollView>
+                )}
+            </Formik>
         </SafeAreaView>
     );
 };

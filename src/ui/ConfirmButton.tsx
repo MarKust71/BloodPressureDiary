@@ -1,17 +1,15 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
-import Clipboard from '@react-native-community/clipboard';
 
-export const ConfirmButton = () => {
-    const handlePress = () => {
-        Clipboard.setString('schowek');
-        console.log('schowek');
-    };
+type Props = {
+    onPress: () => void;
+};
 
+export const ConfirmButton = ({ onPress }: Props) => {
     return (
         <View style={styles.root}>
-            <Button mode="contained" onPress={handlePress}>
+            <Button mode="contained" onPress={onPress}>
                 Confirm
             </Button>
         </View>
