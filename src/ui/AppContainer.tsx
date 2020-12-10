@@ -56,7 +56,18 @@ export const AppContainer = () => {
                 initialValues={{ sys: '', dia: '', pul: '' }}
                 onSubmit={(values) => {
                     console.log('values:', values);
-                    Clipboard.setString(time);
+                    Clipboard.setString(
+                        time +
+                            '\n' +
+                            '\n' +
+                            '\n' +
+                            '\n' +
+                            sensorPressure +
+                            ' sens' +
+                            '\n' +
+                            openWeatherPressure +
+                            ' accu',
+                    );
                 }}
             >
                 {({ values, handleSubmit, handleChange }) => (
