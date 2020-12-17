@@ -1,18 +1,18 @@
 import React from 'react';
+import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, TextInput } from 'react-native-paper';
+import {Props as InputsProps} from './Inputs'
 
-type Props = {
+interface Props extends InputsProps {
     label: string;
-    values: {
-        sys: string;
-        dia: string;
-        pul: string;
-    };
-    handleChange: (field: string) => void;
 };
 
-export const BloodPressureInput = ({ label, values, handleChange }: Props) => {
+export const BloodPressureInput = ({ label }: Props) => {
+    const [sys, setSys] = useState('');
+    const [dia, setDia] = useState('');
+    const [pul, setPul] = useState('');
+
     return (
         <View style={styles.view}>
             <Text style={styles.text}>{label}</Text>
@@ -21,24 +21,24 @@ export const BloodPressureInput = ({ label, values, handleChange }: Props) => {
                 mode="flat"
                 label="SYS"
                 keyboardType="number-pad"
-                value={values.sys}
-                onChangeText={handleChange('sys')}
+                value={sys}
+                onChangeText={(value) => setSys(value)}
             />
             <TextInput
                 style={styles.input}
                 mode="flat"
                 label="DIA"
                 keyboardType="number-pad"
-                value={values.dia}
-                onChangeText={handleChange('dia')}
+                value={dia}
+                onChangeText={(value) => setDia(value)}
             />
             <TextInput
                 style={styles.input}
                 mode="flat"
                 label="PUL"
                 keyboardType="number-pad"
-                value={values.pul}
-                onChangeText={handleChange('pul')}
+                value={pul}
+                onChangeText={(value) => setPul(value)}
             />
         </View>
     );

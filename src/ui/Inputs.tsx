@@ -1,17 +1,16 @@
 import React from 'react';
+import { ChangeEvent } from 'react';
 
 import { BloodPressureInput } from 'ui/BloodPressureInput';
 
-type Props = {
-    values: {
-        sys: string;
-        dia: string;
-        pul: string;
-    };
-    handleChange: (field: string) => void;
-};
+import { InitialValues } from './AppContainer'
 
-export const Inputs = ({ values, handleChange }: Props) => {
+export interface Props {
+    values: InitialValues,
+    handleChange: (e: ChangeEvent<any>) => void
+}
+
+export const Inputs = ({values, handleChange}: Props) => {
     const labels = ['1:', '2:', '3:'];
     return (
         <>

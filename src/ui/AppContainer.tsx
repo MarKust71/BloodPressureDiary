@@ -3,7 +3,7 @@ import { RefreshControl, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 import Geolocation from '@react-native-community/geolocation';
-import { Formik } from 'formik';
+import { useFormik } from 'formik';
 import Clipboard from '@react-native-community/clipboard';
 
 import { Inputs } from 'ui/Inputs';
@@ -15,6 +15,12 @@ import { OpenWeatherAirPressure } from 'ui/OpenWeatherAirPressure';
 import { getCurrentDateTimeString } from 'helpers/getCurrentDateTimeString';
 import { getPosition } from 'helpers/getPosition';
 import { ConfirmButton } from 'ui/ConfirmButton';
+
+export type InitialValues = {
+    sys: string[],
+    dia: string[],
+    pul: string[]
+}
 
 export const AppContainer = () => {
     const [sensorPressure, setSensorPressure] = useState('');
@@ -50,37 +56,35 @@ export const AppContainer = () => {
         // setOpenWeatherPressure(888);
     }, []);
 
+    const formik = useFormik({
+        initialValues: {sys: [], dia: [], pul: []},
+        onSubmit: (values) => {
+            console.log('values:', values);
+            Clipboard.setString(
+                time +
+                '\n' +
+                '\n' +
+                '\n' +
+                '\n' +
+                sensorPressure +
+                ' sens' +
+                '\n' +
+                openWeatherPressure +
+                ' accu',
+            );
+        }
+});
+
     return (
         <SafeAreaView style={styles.body}>
-            <Formik
-                initialValues={{ sys: '', dia: '', pul: '' }}
-                onSubmit={(values) => {
-                    console.log('values:', values);
-                    Clipboard.setString(
-                        time +
-                            '\n' +
-                            '\n' +
-                            '\n' +
-                            '\n' +
-                            sensorPressure +
-                            ' sens' +
-                            '\n' +
-                            openWeatherPressure +
-                            ' accu',
-                    );
-                }}
-            >
-                {({ values, handleSubmit, handleChange }) => (
-                    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-                        <TimeLabel time={time} />
-                        <SensorAirPressure pressure={sensorPressure} />
-                        <OpenWeatherAirPressure pressure={openWeatherPressure} />
-                        <Geoposition geoposition={geoposition} />
-                        <Inputs values={values} handleChange={handleChange} />
-                        <ConfirmButton onPress={handleSubmit} />
-                    </ScrollView>
-                )}
-            </Formik>
+            <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+                <TimeLabel time={time} />
+                <SensorAirPressure pressure={sensorPressure} />
+                <OpenWeatherAirPressure pressure={openWeatherPressure} />
+                <Geoposition geoposition={geoposition} />
+                <Inputs values={formik.values} handleChange={formik.handleChange}/>
+                <ConfirmButton onPress={formik.handleSubmit} />
+            </ScrollView>
         </SafeAreaView>
     );
 };
