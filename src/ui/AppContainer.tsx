@@ -3,7 +3,6 @@ import { RefreshControl, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 import Geolocation from '@react-native-community/geolocation';
-import { useFormik } from 'formik';
 import Clipboard from '@react-native-community/clipboard';
 
 import { Inputs } from 'ui/Inputs';
@@ -16,10 +15,14 @@ import { getCurrentDateTimeString } from 'helpers/getCurrentDateTimeString';
 import { getPosition } from 'helpers/getPosition';
 import { ConfirmButton } from 'ui/ConfirmButton';
 
-export type InitialValues = {
-    sys: string[],
-    dia: string[],
-    pul: string[]
+export interface Result {
+    sys: string | undefined;
+    dia: string | undefined;
+    pul: string | undefined;
+}
+
+export interface InputsData extends Result {
+    label: string;
 }
 
 export const AppContainer = () => {
@@ -28,6 +31,28 @@ export const AppContainer = () => {
     const [refreshing, setRefreshing] = useState(false);
     const [time, setTime] = useState(getCurrentDateTimeString());
     const [geoposition, setGeoposition] = useState('');
+
+    const results: Result[] = [
+        { sys: undefined, dia: undefined, pul: undefined },
+        { sys: undefined, dia: undefined, pul: undefined },
+        { sys: undefined, dia: undefined, pul: undefined },
+    ];
+
+    const handleInputsData = (measurement: InputsData) => {
+        switch (measurement.label) {
+            case '1:':
+                results[0] = { sys: measurement.sys, dia: measurement.dia, pul: measurement.pul };
+                break;
+            case '2:':
+                results[1] = { sys: measurement.sys, dia: measurement.dia, pul: measurement.pul };
+                break;
+            case '3:':
+                results[2] = { sys: measurement.sys, dia: measurement.dia, pul: measurement.pul };
+                break;
+            default:
+                break;
+        }
+    };
 
     Geolocation.getCurrentPosition(
         (info) =>
@@ -53,27 +78,17 @@ export const AppContainer = () => {
 
     useEffect(() => {
         getSensorPressure(setSensorPressure);
-        // setOpenWeatherPressure(888);
     }, []);
 
-    const formik = useFormik({
-        initialValues: {sys: [], dia: [], pul: []},
-        onSubmit: (values) => {
-            console.log('values:', values);
-            Clipboard.setString(
-                time +
-                '\n' +
-                '\n' +
-                '\n' +
-                '\n' +
-                sensorPressure +
-                ' sens' +
-                '\n' +
-                openWeatherPressure +
-                ' accu',
-            );
-        }
-});
+    const handleSubmit = () => {
+        let message = time + '\n';
+        message = message + geoposition + '\n';
+        results.map((item) => (message = message + `${item.sys} ${item.dia} ${item.pul}` + '\n'));
+        message = message + sensorPressure + ' sens' + '\n';
+        message = message + openWeatherPressure + ' accu' + '\n\n';
+        Clipboard.setString(message);
+        console.log(message);
+    };
 
     return (
         <SafeAreaView style={styles.body}>
@@ -82,8 +97,8 @@ export const AppContainer = () => {
                 <SensorAirPressure pressure={sensorPressure} />
                 <OpenWeatherAirPressure pressure={openWeatherPressure} />
                 <Geoposition geoposition={geoposition} />
-                <Inputs values={formik.values} handleChange={formik.handleChange}/>
-                <ConfirmButton onPress={formik.handleSubmit} />
+                <Inputs handleInputsData={handleInputsData} />
+                <ConfirmButton onPress={handleSubmit} />
             </ScrollView>
         </SafeAreaView>
     );

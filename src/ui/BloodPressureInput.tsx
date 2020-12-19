@@ -1,17 +1,22 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, TextInput } from 'react-native-paper';
-import {Props as InputsProps} from './Inputs'
+import { InputsData } from './Inputs';
 
-interface Props extends InputsProps {
+interface Props {
     label: string;
-};
+    handleData: (measurement: InputsData) => void;
+}
 
-export const BloodPressureInput = ({ label }: Props) => {
+export const BloodPressureInput = ({ label, handleData }: Props) => {
     const [sys, setSys] = useState('');
     const [dia, setDia] = useState('');
     const [pul, setPul] = useState('');
+
+    useEffect(() => {
+        handleData({ label, sys, dia, pul });
+    }, [sys, dia, pul]);
 
     return (
         <View style={styles.view}>
