@@ -31,12 +31,14 @@ export const AppContainer = () => {
     const [refreshing, setRefreshing] = useState(false);
     const [time, setTime] = useState(getCurrentDateTimeString());
     const [geoposition, setGeoposition] = useState('');
+    const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
 
-    const results: Result[] = [
+    const initResults: Result[] = [
         { sys: undefined, dia: undefined, pul: undefined },
         { sys: undefined, dia: undefined, pul: undefined },
         { sys: undefined, dia: undefined, pul: undefined },
     ];
+    const [results, setResults] = useState<Result[]>(initResults)
 
     const handleInputsData = (measurement: InputsData) => {
         switch (measurement.label) {
@@ -52,6 +54,12 @@ export const AppContainer = () => {
             default:
                 break;
         }
+        setResults(results)
+        let allInputsFilledOut = true;
+        results.map((result) => {
+            allInputsFilledOut = allInputsFilledOut && !!result.sys && !!result.dia && !!result.pul;
+        });
+        setConfirmButtonDisabled(!allInputsFilledOut);
     };
 
     Geolocation.getCurrentPosition(
@@ -83,11 +91,10 @@ export const AppContainer = () => {
     const handleSubmit = () => {
         let message = time + '\n';
         message = message + geoposition + '\n';
-        results.map((item) => (message = message + `${item.sys} ${item.dia} ${item.pul}` + '\n'));
+        results.map((result) => (message = message + `${result.sys} ${result.dia} ${result.pul}` + '\n'));
         message = message + sensorPressure + ' sens' + '\n';
         message = message + openWeatherPressure + ' accu' + '\n\n';
         Clipboard.setString(message);
-        console.log(message);
     };
 
     return (
@@ -98,7 +105,7 @@ export const AppContainer = () => {
                 <OpenWeatherAirPressure pressure={openWeatherPressure} />
                 <Geoposition geoposition={geoposition} />
                 <Inputs handleInputsData={handleInputsData} />
-                <ConfirmButton onPress={handleSubmit} />
+                <ConfirmButton disabled={confirmButtonDisabled} onPress={handleSubmit} />
             </ScrollView>
         </SafeAreaView>
     );

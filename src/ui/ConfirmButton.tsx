@@ -4,12 +4,13 @@ import { Button } from 'react-native-paper';
 
 type Props = {
     onPress: () => void;
+    disabled: boolean;
 };
 
-export const ConfirmButton = ({ onPress }: Props) => {
+export const ConfirmButton = ({ onPress, disabled }: Props) => {
     return (
         <View style={styles.root}>
-            <Button mode="contained" onPress={onPress}>
+            <Button disabled={disabled} mode="contained" onPress={onPress}>
                 Confirm
             </Button>
         </View>
